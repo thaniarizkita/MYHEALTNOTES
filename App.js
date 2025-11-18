@@ -12,38 +12,10 @@ import BottomNav from './src/components/BottomNav';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('splash');
-  const [healthData, setHealthData] = useState([
-    {
-      id: 1,
-      title: 'Catatan Meeting',
-      date: '2025-11-17',
-      type: 'Meeting',
-      iconName: 'chatbox-ellipses',
-      status: 'Selesai',
-      priority: 'sedang',
-      notes: 'Ini adalah catatan meeting penting dengan client'
-    },
-    {
-      id: 2,
-      title: 'Task: Update Dokumen',
-      date: '2025-11-16',
-      type: 'Task',
-      iconName: 'document-text',
-      status: 'Berjalan',
-      priority: 'tinggi',
-      notes: 'Update dokumentasi project untuk tim development'
-    },
-    {
-      id: 3,
-      title: 'Ide Produk Baru',
-      date: '2025-11-10',
-      type: 'Ide',
-      iconName: 'bulb',
-      status: 'Draft',
-      priority: 'rendah',
-      notes: 'Ide untuk fitur baru aplikasi mobile'
-    },
-  ]);
+
+  // Tanpa data dummy
+  const [healthData, setHealthData] = useState([]);
+
   const [editingNote, setEditingNote] = useState(null);
   const [viewingNote, setViewingNote] = useState(null);
 
@@ -59,8 +31,8 @@ export default function App() {
     if (editingNote) {
       // UPDATE existing note
       setHealthData((prev) =>
-        prev.map((n) => 
-          n.id === editingNote.id 
+        prev.map((n) =>
+          n.id === editingNote.id
             ? { ...n, ...noteData, id: editingNote.id }
             : n
         )
@@ -93,36 +65,26 @@ export default function App() {
   };
 
   // DELETE
- // handler hapus di App.js
-const handleDeleteNote = (id) => {
-  console.log('[App] handleDeleteNote called with id =', id);
+  const handleDeleteNote = (id) => {
+    console.log('[App] handleDeleteNote called with id =', id);
 
-  if (id === null || id === undefined || id === '') {
-    console.warn('[App] received invalid id, aborting delete:', id);
-    return;
-  }
+    if (!id && id !== 0) {
+      console.warn('[App] invalid id, aborting delete:', id);
+      return;
+    }
 
-  setHealthData((current) => {
-    console.log('[App] current length before delete =', current.length);
-    const next = current.filter(item => String(item.id) !== String(id));
-    console.log('[App] next length after delete =', next.length);
-    return next;
-  });
+    setHealthData((current) => {
+      console.log('[App] current length =', current.length);
+      const next = current.filter(item => String(item.id) !== String(id));
+      console.log('[App] next length =', next.length);
+      return next;
+    });
 
-  if (viewingNote && String(viewingNote.id) === String(id)) {
-    setViewingNote(null);
-    setCurrentScreen('notes');
-  }
-};
-
-// contoh: pastikan penerusan props ke NotesScreen seperti ini:
-<NotesScreen
-  healthData={healthData}
-  onNavigate={handleNavigation}
-  onEdit={handleEditNote}
-  onDelete={handleDeleteNote}
-  onView={handleViewNote}
-/>
+    if (viewingNote && String(viewingNote.id) === String(id)) {
+      setViewingNote(null);
+      setCurrentScreen('notes');
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#dbeafe' }}>
@@ -131,9 +93,9 @@ const handleDeleteNote = (id) => {
       )}
 
       {currentScreen === 'home' && (
-        <HomeScreen 
-          onNavigate={handleNavigation} 
-          healthData={healthData} 
+        <HomeScreen
+          onNavigate={handleNavigation}
+          healthData={healthData}
         />
       )}
 
@@ -148,9 +110,9 @@ const handleDeleteNote = (id) => {
       )}
 
       {currentScreen === 'add' && (
-        <AddNoteScreen 
-          onNavigate={handleNavigation} 
-          onSave={handleSaveNote} 
+        <AddNoteScreen
+          onNavigate={handleNavigation}
+          onSave={handleSaveNote}
           editNote={editingNote}
         />
       )}
@@ -165,8 +127,8 @@ const handleDeleteNote = (id) => {
       )}
 
       {currentScreen === 'profile' && (
-        <ProfileScreen 
-          healthData={healthData} 
+        <ProfileScreen
+          healthData={healthData}
           onClear={() => {
             setHealthData([]);
             Alert.alert('Sukses', 'Semua catatan telah dihapus!');
@@ -175,9 +137,9 @@ const handleDeleteNote = (id) => {
       )}
 
       {currentScreen !== 'splash' && (
-        <BottomNav 
-          currentScreen={currentScreen} 
-          onNavigation={handleNavigation} 
+        <BottomNav
+          currentScreen={currentScreen}
+          onNavigation={handleNavigation}
         />
       )}
     </SafeAreaView>
