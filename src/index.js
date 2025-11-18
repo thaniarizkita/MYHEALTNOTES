@@ -1,0 +1,10 @@
+export { default as ButtonCustom } from './components/ButtonCustom';
+export { default as Card } from './components/Card';
+export { default as NoteItem } from './components/NoteItem';
+export { default as SplashScreen } from './components/SplashScreen';
+export { default as HomeScreen } from './components/HomeScreen';
+export { default as NotesScreen } from './components/NotesScreen';
+export { default as NoteDetail} from './components/NoteDetailScreen';
+export { default as AddNoteScreen } from './components/AddNoteScreen';
+export { default as ProfileScreen } from './components/ProfileScreen';
+export { default as BottomNav } from './components/BottomNav';
